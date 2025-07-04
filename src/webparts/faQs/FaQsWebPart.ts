@@ -28,7 +28,6 @@ export interface IFaqsWebPartProps {
   categoryData: any[];
   title: string;
   type: string;
-  conssole.log('Testing')
 }
 
 export default class FaqsWebPart extends BaseClientSideWebPart<IFaqsWebPartProps> {
@@ -38,7 +37,6 @@ export default class FaqsWebPart extends BaseClientSideWebPart<IFaqsWebPartProps
   private isMobile: boolean;
   
   
-   * @function
   
   public constructor(context?: WebPartContext) {
     super();
@@ -47,7 +45,8 @@ export default class FaqsWebPart extends BaseClientSideWebPart<IFaqsWebPartProps
     this.guid = Guid.newGuid().toString();
     this.isMobile = BrowserUtilities.isMobileBrowser();
 
-  
+    this.injectCustomStyle();
+    console.log("CONSTRUCTOR LAUNCHED")
     this.onPropertyPaneFieldChanged = this.onPropertyPaneFieldChanged.bind(this);
   }
 
@@ -122,6 +121,20 @@ export default class FaqsWebPart extends BaseClientSideWebPart<IFaqsWebPartProps
     this.propertyFieldCollectionData = PropertyFieldCollectionData;
     this.customCollectionFieldType = CustomCollectionFieldType;
   }
+
+  
+  private injectCustomStyle(): void {
+    const styleElement = document.createElement('style');
+    styleElement.type = 'text/css';
+
+    styleElement.textContent = `
+      p{
+        font-size: 24px;
+      }
+    `;
+    document.head.appendChild(styleElement);
+    console.log("Injecting custom styles");
+  } 
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     let groups = [];
